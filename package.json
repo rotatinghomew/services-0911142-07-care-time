@@ -1,0 +1,9 @@
+{
+  "name": "care-time",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m care_time",
+    "test:browser": "python3 tests/browser_smoke.py"
+  }
+}
