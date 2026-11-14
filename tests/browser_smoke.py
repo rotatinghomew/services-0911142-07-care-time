@@ -34,6 +34,30 @@ class BrowserWorkflow(unittest.TestCase):
                         page.locator("#status").filter(has_text="已更新描述").wait_for()
                         self.assertEqual(page.locator("h1").inner_text(), product["name"])
                         self.assertGreater(page.locator("#rows tr").count(), 0)
+                        page.locator("#analysis-status").filter(has_text="研究估计已更新").wait_for()
+                        self.assertGreater(page.locator("#quantile-rows tr").count(), 0)
+                        self.assertGreater(page.locator("#sens-rows tr").count(), 0)
+                        self.assertGreater(page.locator("#provider-rows tr").count(), 0)
+                        self.assertGreater(page.locator("#recipient-rows tr").count(), 0)
+                        self.assertGreater(page.locator("#diary-rows tr").count(), 0)
+                        self.assertIn("家庭", page.locator("#timeline-details").inner_text())
+                        load_card = page.locator("#analysis-summary article").nth(1).locator("strong").inner_text()
+                        page.evaluate("""() => {
+                          const canvas = document.getElementById('timeline');
+                          const bar = canvas._bars.find(item => item.record.类型 === '活动');
+                          const rect = canvas.getBoundingClientRect();
+                          canvas.dispatchEvent(new MouseEvent('click', {bubbles: true,
+                            clientX: rect.left + (bar.x0 + bar.x1) / 2 * rect.width / canvas.width,
+                            clientY: rect.top + (bar.y0 + bar.y1) / 2 * rect.height / canvas.height}));
+                        }""")
+                        self.assertIn("活动", page.locator("#timeline-details").inner_text())
+                        page.locator("#factor-secondary").fill("1")
+                        page.locator("#analyze").click()
+                        page.locator("#analysis-status").filter(has_text="伴1/待").wait_for()
+                        changed_card = page.locator("#analysis-summary article").nth(1).locator("strong").inner_text()
+                        self.assertNotEqual(load_card, changed_card)
+                        page.locator("#caliber-reset").click()
+                        page.locator("#analysis-status").filter(has_text="伴0.5/待").wait_for()
                         page.locator("#rows tr").first.click()
                         self.assertIn("{", page.locator("#details").inner_text())
                         page.locator("#raw").click()

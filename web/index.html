@@ -4,10 +4,44 @@
 <body><header><span>教研数据 · 复核工作区</span><h1>家庭照护时间研究簿</h1><p>日记中的并行照护与观察缺口</p></header>
 <main><aside><h2>数据与范围</h2><label>数据版本<select id="revision"></select></label><div id="controls"></div>
 <button id="inspect">查看所选范围</button><label>导入完整数据<input id="upload" type="file" accept=".json,application/json"></label>
-<button id="raw">查看原始记录</button><h2>分析记录</h2><label>记录名称<input id="title" value="本次复核"></label>
+<button id="raw">查看原始记录</button>
+<h2>研究口径</h2>
+<label>主活动折算<input id="factor-primary" type="number" min="0" max="2" step="0.05"></label>
+<label>伴随活动折算<input id="factor-secondary" type="number" min="0" max="2" step="0.05"></label>
+<label>待命时间折算<input id="factor-standby" type="number" min="0" max="2" step="0.05"></label>
+<label>半天日记<select id="caliber-partial"><option value="exclude">排除出周估计</option><option value="scale">按覆盖比例放大</option></select></label>
+<label>代填日记<select id="caliber-proxy"><option value="include">保留</option><option value="exclude">排除</option></select></label>
+<label>群体比较<select id="caliber-group"><option value="area">按家庭区域</option><option value="none">不分组</option></select></label>
+<label>敏感性网格·伴随<input id="sens-secondary" type="text" placeholder="如 0.25,0.5,0.75,1"></label>
+<label>敏感性网格·待命<input id="sens-standby" type="text" placeholder="如 0,0.25,0.5"></label>
+<button id="analyze">运行研究估计</button><button id="caliber-reset">恢复默认口径</button>
+<h2>分析记录</h2><label>记录名称<input id="title" value="本次复核"></label>
 <button id="save">保存当前描述</button><div id="archive"></div></aside>
 <section><div id="status" role="status">正在读取本地数据…</div><div id="summary"></div>
 <h2>日记中的并行照护与观察缺口</h2><div id="notes"></div><canvas id="chart" width="960" height="300" aria-label="所选范围描述图"></canvas>
 <div class="table-wrap"><table><thead id="columns"></thead><tbody id="rows"></tbody></table></div>
 <h2 id="detail-heading">记录与依据</h2><pre id="details">点击记录行可查看详细字段。</pre><button id="export">导出当前记录</button>
-</section></main><footer>仅使用本地虚构记录；描述统计不替代研究设计与业务复核。</footer><script src="/app.js"></script></body></html>
+</section>
+<section class="column2" id="analysis-block"><h2>研究估计：周负担、群体差异与不确定性</h2>
+<div id="analysis-status" role="status">研究估计随范围自动运行，也可修改口径后手动运行。</div><div id="analysis-summary"></div>
+<h3>周负担分布（户级加权分位数，分钟/周）</h3>
+<div class="table-wrap"><table><thead id="quantile-columns"></thead><tbody id="quantile-rows"></tbody></table></div>
+<h3>群体差异</h3>
+<div class="table-wrap"><table><thead id="group-columns"></thead><tbody id="group-rows"></tbody></table></div>
+<h3>折算敏感性（周户均折算负担，分钟/周）</h3>
+<div class="table-wrap"><table><thead id="sens-columns"></thead><tbody id="sens-rows"></tbody></table></div>
+<div id="sens-notes" class="subnotes"></div>
+<h3>谁承担了哪些任务（提供者每周分钟，按口径过滤）</h3>
+<div class="table-wrap"><table><thead id="provider-columns"></thead><tbody id="provider-rows"></tbody></table></div>
+<h3>接收端照护量（每周分钟，与提供端分开）</h3>
+<div class="table-wrap"><table><thead id="recipient-columns"></thead><tbody id="recipient-rows"></tbody></table></div>
+<h3>日记级强度明细</h3>
+<div class="table-wrap"><table><thead id="diary-columns"></thead><tbody id="diary-rows"></tbody></table></div>
+<div id="analysis-notes"></div>
+</section>
+<section class="column2" id="timeline-block"><h2>家庭时间轴（可核对）</h2>
+<label>家庭<select id="household"></select></label>
+<canvas id="timeline" width="960" height="360" aria-label="家庭照护时间轴"></canvas>
+<pre id="timeline-details">选择家庭后绘制时间轴；点击活动条查看原始记录。</pre>
+</section>
+</main><footer>仅使用本地虚构记录；描述统计不替代研究设计与业务复核。</footer><script src="/app.js"></script></body></html>

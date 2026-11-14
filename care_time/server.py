@@ -38,6 +38,11 @@ class Handler(BaseHTTPRequestHandler):
             if parsed.path == "/api/data":
                 revision = parse_qs(parsed.query).get("revision", [self.workbench.default_revision])[0]
                 return self.send(200, self.workbench.store.dataset(revision))
+            if parsed.path == "/api/household":
+                params = parse_qs(parsed.query)
+                revision = params.get("revision", [None])[0]
+                household = params.get("household", [""])[0]
+                return self.send(200, self.workbench.household(revision, household))
             if parsed.path == "/api/notebooks":
                 return self.send(200, self.workbench.store.notebooks())
             if parsed.path.startswith("/api/notebooks/"):
@@ -61,6 +66,8 @@ class Handler(BaseHTTPRequestHandler):
                 raise ValueError("请求正文应为对象")
             if self.path == "/api/explore":
                 return self.send(200, self.workbench.inspect(body))
+            if self.path == "/api/analyze":
+                return self.send(200, self.workbench.analyze(body))
             if self.path == "/api/datasets":
                 return self.send(201, self.workbench.upload(body))
             if self.path == "/api/notebooks":
