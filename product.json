@@ -1,0 +1,29 @@
+{
+  "name": "家庭照护时间研究簿",
+  "focus": "日记中的并行照护与观察缺口",
+  "options": [
+    [
+      "day_type",
+      "日期类型",
+      [
+        "all",
+        "weekday",
+        "weekend"
+      ]
+    ],
+    [
+      "area",
+      "家庭区域",
+      [
+        "all",
+        "town",
+        "village"
+      ]
+    ]
+  ],
+  "selection": {
+    "day_type": "all",
+    "area": "all"
+  },
+  "purpose": "社会服务分析资料复核"
+}

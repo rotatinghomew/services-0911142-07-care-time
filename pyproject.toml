@@ -1,0 +1,6 @@
+[project]
+name = "care-time"
+version = "0.1.0"
+description = "家庭照护时间研究簿"
+requires-python = ">=3.11"
+dependencies = []
